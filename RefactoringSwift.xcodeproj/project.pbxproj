@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		B70C09AF2C3C0F5100B4504C /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = B70C09AE2C3C0F5100B4504C /* main.swift */; };
+		B76A52662C3C114200DB88EF /* TheaterMain.swift in Sources */ = {isa = PBXBuildFile; fileRef = B76A52652C3C114200DB88EF /* TheaterMain.swift */; };
+		B76A52692C3C121900DB88EF /* loadJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = B76A52682C3C121900DB88EF /* loadJSON.swift */; };
+		B76A526B2C3C155700DB88EF /* data.swift in Sources */ = {isa = PBXBuildFile; fileRef = B76A526A2C3C155700DB88EF /* data.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -25,6 +28,9 @@
 /* Begin PBXFileReference section */
 		B70C09AB2C3C0F5100B4504C /* RefactoringSwift */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = RefactoringSwift; sourceTree = BUILT_PRODUCTS_DIR; };
 		B70C09AE2C3C0F5100B4504C /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		B76A52652C3C114200DB88EF /* TheaterMain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TheaterMain.swift; sourceTree = "<group>"; };
+		B76A52682C3C121900DB88EF /* loadJSON.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = loadJSON.swift; sourceTree = "<group>"; };
+		B76A526A2C3C155700DB88EF /* data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = data.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -57,9 +63,28 @@
 		B70C09AD2C3C0F5100B4504C /* RefactoringSwift */ = {
 			isa = PBXGroup;
 			children = (
+				B76A52672C3C120900DB88EF /* Utils */,
+				B70C09B52C3C0F6900B4504C /* Theater */,
 				B70C09AE2C3C0F5100B4504C /* main.swift */,
 			);
 			path = RefactoringSwift;
+			sourceTree = "<group>";
+		};
+		B70C09B52C3C0F6900B4504C /* Theater */ = {
+			isa = PBXGroup;
+			children = (
+				B76A52652C3C114200DB88EF /* TheaterMain.swift */,
+				B76A526A2C3C155700DB88EF /* data.swift */,
+			);
+			path = Theater;
+			sourceTree = "<group>";
+		};
+		B76A52672C3C120900DB88EF /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				B76A52682C3C121900DB88EF /* loadJSON.swift */,
+			);
+			path = Utils;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -120,7 +145,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B76A52662C3C114200DB88EF /* TheaterMain.swift in Sources */,
+				B76A52692C3C121900DB88EF /* loadJSON.swift in Sources */,
 				B70C09AF2C3C0F5100B4504C /* main.swift in Sources */,
+				B76A526B2C3C155700DB88EF /* data.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -248,10 +276,13 @@
 		B70C09B32C3C0F5100B4504C /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "Apple Development";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = X843D4L2C2;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_HARDENED_RUNTIME = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
@@ -259,10 +290,13 @@
 		B70C09B42C3C0F5100B4504C /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "Apple Development";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = X843D4L2C2;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_HARDENED_RUNTIME = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 			};
 			name = Release;

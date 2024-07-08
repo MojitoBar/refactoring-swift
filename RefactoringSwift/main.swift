@@ -7,5 +7,10 @@
 
 import Foundation
 
-print("Hello, World!")
+
+if let theaterData = parseTheaterData(playsJSON: playsJSON, invoicesJSON: invoicesJSON) {
+    print(statement(invoice: theaterData.invoices.first!, plays: theaterData.plays))
+} else {
+    print("Failed to parse data")
+}
 
