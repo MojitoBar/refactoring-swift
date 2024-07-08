@@ -31,6 +31,7 @@
 		B76A52652C3C114200DB88EF /* TheaterMain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TheaterMain.swift; sourceTree = "<group>"; };
 		B76A52682C3C121900DB88EF /* loadJSON.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = loadJSON.swift; sourceTree = "<group>"; };
 		B76A526A2C3C155700DB88EF /* data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = data.swift; sourceTree = "<group>"; };
+		B76A526D2C3C200300DB88EF /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -75,6 +76,7 @@
 			children = (
 				B76A52652C3C114200DB88EF /* TheaterMain.swift */,
 				B76A526A2C3C155700DB88EF /* data.swift */,
+				B76A526D2C3C200300DB88EF /* README.md */,
 			);
 			path = Theater;
 			sourceTree = "<group>";
