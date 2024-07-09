@@ -14,11 +14,13 @@ func statement(invoice: Invoice, plays: [String: Play]) -> String {
     }
     
     for perf in invoice.performances {
-        volumeCredits += volumCreditsFor(perf)
-        
         // 청구 내역을 출력한다.
         result += "\(playFor(perf).name): \(usd(amountFor(perf))) (\(perf.audience)석)\n"
         totalAmount += amountFor(perf)
+    }
+    
+    for perf in invoice.performances {       
+        volumeCredits += volumCreditsFor(perf)
     }
     
     result += "총액: \(usd(totalAmount))\n"
