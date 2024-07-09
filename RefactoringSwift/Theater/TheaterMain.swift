@@ -62,10 +62,10 @@ func statement(invoice: Invoice, plays: [String: Play]) -> String {
     }
     
     func totalAmount() -> Int {
-        var totalAmount = 0
+        var result = 0
         for perf in invoice.performances {
-            totalAmount += amountFor(perf)
+            result += amountFor(perf)
         }
-        return totalAmount
+        return result
     }
 }
