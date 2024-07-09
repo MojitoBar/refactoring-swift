@@ -49,11 +49,11 @@ func statement(invoice: Invoice, plays: [String: Play]) -> String {
         return plays[aPerformance.playID]!
     }
     
-    func volumCreditsFor(_ perf: Performance) -> Int {
+    func volumCreditsFor(_ aPerformance: Performance) -> Int {
         let volumCredits = 0
-        volumeCredits += max(perf.audience - 30, 0)
-        if playFor(perf).type == "comedy" {
-            volumeCredits += perf.audience / 5
+        volumeCredits += max(aPerformance.audience - 30, 0)
+        if playFor(aPerformance).type == "comedy" {
+            volumeCredits += aPerformance.audience / 5
         }
         return volumCredits
     }
