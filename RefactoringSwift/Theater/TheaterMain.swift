@@ -9,10 +9,10 @@ func usd(_ number: Int) -> String {
 }
 
 func statement(invoice: Invoice, plays: [String: Play]) -> String {
-    return renderPlainText(data: createStatementData(invoice: invoice, plays: plays), plays: plays)
+    return renderPlainText(data: createStatementData(invoice: invoice, plays: plays))
 }
 
-func renderPlainText(data: StatementData, plays: [String: Play]) -> String {
+func renderPlainText(data: StatementData) -> String {
     var result = "청구 내역 (고객명: \(data.customer))\n"
     for perf in data.performances {
         result += "\(perf.play!.name): \(usd(perf.amount!)) (\(perf.audience)석)\n"
