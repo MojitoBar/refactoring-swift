@@ -3,12 +3,13 @@ import Foundation
 func statement(invoice: Invoice, plays: [String: Play]) -> String {
     var statementData: StatementData = StatementData()
     statementData.customer = invoice.customer
-    return renderPlainText(data: statementData, invoice: invoice, plays: plays)
+    statementData.performances = invoice.performances
+    return renderPlainText(data: statementData, plays: plays)
 }
 
-func renderPlainText(data: StatementData, invoice: Invoice, plays: [String: Play]) -> String {
+func renderPlainText(data: StatementData, plays: [String: Play]) -> String {
     var result = "청구 내역 (고객명: \(data.customer))\n"
-    for perf in invoice.performances {
+    for perf in data.performances {
         result += "\(playFor(perf).name): \(usd(amountFor(perf))) (\(perf.audience)석)\n"
     }
     result += "총액: \(usd(totalAmount()))\n"
@@ -58,7 +59,7 @@ func renderPlainText(data: StatementData, invoice: Invoice, plays: [String: Play
     
     func totalVolumeCredits() -> Int {
         var result = 0
-        for perf in invoice.performances {
+        for perf in data.performances {
             result += volumCreditsFor(perf)
         }
         return result
@@ -66,7 +67,7 @@ func renderPlainText(data: StatementData, invoice: Invoice, plays: [String: Play
     
     func totalAmount() -> Int {
         var result = 0
-        for perf in invoice.performances {
+        for perf in data.performances {
             result += amountFor(perf)
         }
         return result
