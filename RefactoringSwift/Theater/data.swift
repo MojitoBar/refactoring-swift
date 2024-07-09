@@ -27,6 +27,8 @@ struct TheaterData: Codable {
 struct StatementData {
     var customer: String
     var performances: [Performance]
+    var totalAmount: Int? = 0
+    var totalVolumeCredits: Int? = 0
     
     init(customer: String = "", performances: [Performance] = []) {
         self.customer = customer

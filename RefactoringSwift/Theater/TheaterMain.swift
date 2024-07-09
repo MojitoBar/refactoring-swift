@@ -4,6 +4,8 @@ func statement(invoice: Invoice, plays: [String: Play]) -> String {
     var statementData: StatementData = StatementData()
     statementData.customer = invoice.customer
     statementData.performances = invoice.performances.map(enrichPerformance(aPerformance:))
+    statementData.totalAmount = totalAmount(data: statementData)
+    statementData.totalVolumeCredits = totalVolumeCredits(data: statementData)
     return renderPlainText(data: statementData, plays: plays)
     
     func enrichPerformance(aPerformance: Performance) -> Performance {
@@ -46,6 +48,22 @@ func statement(invoice: Invoice, plays: [String: Play]) -> String {
         }
         return result
     }
+    
+    func totalVolumeCredits(data: StatementData) -> Int {
+        var result = 0
+        for perf in data.performances {
+            result += perf.volumeCredits!
+        }
+        return result
+    }
+    
+    func totalAmount(data: StatementData) -> Int {
+        var result = 0
+        for perf in data.performances {
+            result += perf.amount!
+        }
+        return result
+    }
 }
 
 func renderPlainText(data: StatementData, plays: [String: Play]) -> String {
@@ -53,8 +71,8 @@ func renderPlainText(data: StatementData, plays: [String: Play]) -> String {
     for perf in data.performances {
         result += "\(perf.play!.name): \(usd(perf.amount!)) (\(perf.audience)석)\n"
     }
-    result += "총액: \(usd(totalAmount()))\n"
-    result += "적립 포인트: \(totalVolumeCredits())점\n"
+    result += "총액: \(usd(data.totalAmount!))\n"
+    result += "적립 포인트: \(data.totalVolumeCredits!)점\n"
     return result
     
     func usd(_ number: Int) -> String {
@@ -63,21 +81,5 @@ func renderPlainText(data: StatementData, plays: [String: Play]) -> String {
         numberFormatter.locale = Locale(identifier: "en_US")
         numberFormatter.minimumFractionDigits = 2
         return numberFormatter.string(from: NSNumber(value: Double(number) / 100.0)) ?? ""
-    }
-    
-    func totalVolumeCredits() -> Int {
-        var result = 0
-        for perf in data.performances {
-            result += perf.volumeCredits!
-        }
-        return result
-    }
-    
-    func totalAmount() -> Int {
-        var result = 0
-        for perf in data.performances {
-            result += perf.amount!
-        }
-        return result
     }
 }
