@@ -54,11 +54,11 @@ func statement(invoice: Invoice, plays: [String: Play]) -> String {
     }
     
     func totalVolumeCredits() -> Int {
-        var volumeCredits = 0
+        var result = 0
         for perf in invoice.performances {
-            volumeCredits += volumCreditsFor(perf)
+            result += volumCreditsFor(perf)
         }
-        return volumeCredits
+        return result
     }
     
     func totalAmount() -> Int {
