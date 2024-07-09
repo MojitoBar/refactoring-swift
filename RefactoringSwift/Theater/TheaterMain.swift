@@ -14,10 +14,7 @@ func statement(invoice: Invoice, plays: [String: Play]) -> String {
     }
     
     for perf in invoice.performances {
-        guard let play = plays[perf.playID] else {
-            fatalError("플레이를 찾을 수 없습니다: \(perf.playID)")
-        }
-        
+        let play = plays[perf.playID]!
         var thisAmount = 0
         
         switch play.type {
