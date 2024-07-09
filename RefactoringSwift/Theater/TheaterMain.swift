@@ -1,7 +1,7 @@
 import Foundation
 
 func statement(invoice: Invoice, plays: [String: Play]) -> String {
-    var totalAmount = 0
+    let totalAmount = totalAmount()
     var result = "청구 내역 (고객명: \(invoice.customer))\n"
     
     func usd(_ number: Int) -> String {
@@ -15,7 +15,6 @@ func statement(invoice: Invoice, plays: [String: Play]) -> String {
     for perf in invoice.performances {
         // 청구 내역을 출력한다.
         result += "\(playFor(perf).name): \(usd(amountFor(perf))) (\(perf.audience)석)\n"
-        totalAmount += amountFor(perf)
     }
     
     result += "총액: \(usd(totalAmount))\n"
@@ -61,5 +60,13 @@ func statement(invoice: Invoice, plays: [String: Play]) -> String {
             volumeCredits += volumCreditsFor(perf)
         }
         return volumeCredits
+    }
+    
+    func totalAmount() -> Int {
+        var totalAmount = 0
+        for perf in invoice.performances {
+            totalAmount += amountFor(perf)
+        }
+        return totalAmount
     }
 }
