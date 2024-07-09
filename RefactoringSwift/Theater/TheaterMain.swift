@@ -2,7 +2,6 @@ import Foundation
 
 func statement(invoice: Invoice, plays: [String: Play]) -> String {
     var totalAmount = 0
-    var volumeCredits = 0
     var result = "청구 내역 (고객명: \(invoice.customer))\n"
     
     func usd(_ number: Int) -> String {
@@ -19,7 +18,8 @@ func statement(invoice: Invoice, plays: [String: Play]) -> String {
         totalAmount += amountFor(perf)
     }
     
-    for perf in invoice.performances {       
+    var volumeCredits = 0
+    for perf in invoice.performances {
         volumeCredits += volumCreditsFor(perf)
     }
     
