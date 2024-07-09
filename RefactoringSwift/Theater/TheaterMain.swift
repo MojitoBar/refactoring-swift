@@ -14,7 +14,7 @@ func statement(invoice: Invoice, plays: [String: Play]) -> String {
     }
     
     for perf in invoice.performances {
-        let play = plays[perf.playID]!
+        let play = playFor(perf)
         let thisAmount = amountFor(perf, play)
         
         // 포인트를 적립한다.
@@ -51,5 +51,9 @@ func statement(invoice: Invoice, plays: [String: Play]) -> String {
             fatalError("알 수 없는 장르: \(play.type)")
         }
         return result
+    }
+    
+    func playFor(_ aPerformance: Performance) -> Play{
+        return plays[aPerformance.playID]!
     }
 }
