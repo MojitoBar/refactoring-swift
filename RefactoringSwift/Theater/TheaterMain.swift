@@ -9,29 +9,12 @@ func statement(invoice: Invoice, plays: [String: Play]) -> String {
     func enrichPerformance(aPerformance: Performance) -> Performance {
         var result = aPerformance
         result.play = playFor(result)
+        result.amount = amountFor(result)
         return result
     }
     
     func playFor(_ aPerformance: Performance) -> Play {
         return plays[aPerformance.playID]!
-    }
-}
-
-func renderPlainText(data: StatementData, plays: [String: Play]) -> String {
-    var result = "청구 내역 (고객명: \(data.customer))\n"
-    for perf in data.performances {
-        result += "\(perf.play!.name): \(usd(amountFor(perf))) (\(perf.audience)석)\n"
-    }
-    result += "총액: \(usd(totalAmount()))\n"
-    result += "적립 포인트: \(totalVolumeCredits())점\n"
-    return result
-    
-    func usd(_ number: Int) -> String {
-        let numberFormatter = NumberFormatter()
-        numberFormatter.numberStyle = .currency
-        numberFormatter.locale = Locale(identifier: "en_US")
-        numberFormatter.minimumFractionDigits = 2
-        return numberFormatter.string(from: NSNumber(value: Double(number) / 100.0)) ?? ""
     }
     
     func amountFor(_ aPerformance: Performance) -> Int {
@@ -53,6 +36,26 @@ func renderPlainText(data: StatementData, plays: [String: Play]) -> String {
         }
         return result
     }
+}
+
+func renderPlainText(data: StatementData, plays: [String: Play]) -> String {
+    var result = "청구 내역 (고객명: \(data.customer))\n"
+    for perf in data.performances {
+        result += "\(perf.play!.name): \(usd(perf.amount!)) (\(perf.audience)석)\n"
+    }
+    result += "총액: \(usd(totalAmount()))\n"
+    result += "적립 포인트: \(totalVolumeCredits())점\n"
+    return result
+    
+    func usd(_ number: Int) -> String {
+        let numberFormatter = NumberFormatter()
+        numberFormatter.numberStyle = .currency
+        numberFormatter.locale = Locale(identifier: "en_US")
+        numberFormatter.minimumFractionDigits = 2
+        return numberFormatter.string(from: NSNumber(value: Double(number) / 100.0)) ?? ""
+    }
+    
+    
     
     func volumCreditsFor(_ aPerformance: Performance) -> Int {
         var result = 0
@@ -74,7 +77,7 @@ func renderPlainText(data: StatementData, plays: [String: Play]) -> String {
     func totalAmount() -> Int {
         var result = 0
         for perf in data.performances {
-            result += amountFor(perf)
+            result += perf.amount!
         }
         return result
     }

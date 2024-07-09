@@ -4,6 +4,7 @@ struct Performance: Codable {
     let playID: String
     let audience: Int
     var play: Play?
+    var amount: Int? = 0
 }
 
 struct Invoice: Codable {
