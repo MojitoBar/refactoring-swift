@@ -1,5 +1,13 @@
 import Foundation
 
+func usd(_ number: Int) -> String {
+    let numberFormatter = NumberFormatter()
+    numberFormatter.numberStyle = .currency
+    numberFormatter.locale = Locale(identifier: "en_US")
+    numberFormatter.minimumFractionDigits = 2
+    return numberFormatter.string(from: NSNumber(value: Double(number) / 100.0)) ?? ""
+}
+
 func statement(invoice: Invoice, plays: [String: Play]) -> String {
     return renderPlainText(data: createStatementData(invoice: invoice, plays: plays), plays: plays)
 }
@@ -12,14 +20,6 @@ func renderPlainText(data: StatementData, plays: [String: Play]) -> String {
     result += "총액: \(usd(data.totalAmount!))\n"
     result += "적립 포인트: \(data.totalVolumeCredits!)점\n"
     return result
-    
-    func usd(_ number: Int) -> String {
-        let numberFormatter = NumberFormatter()
-        numberFormatter.numberStyle = .currency
-        numberFormatter.locale = Locale(identifier: "en_US")
-        numberFormatter.minimumFractionDigits = 2
-        return numberFormatter.string(from: NSNumber(value: Double(number) / 100.0)) ?? ""
-    }
 }
 
 func createStatementData(invoice: Invoice, plays: [String: Play]) -> StatementData {
