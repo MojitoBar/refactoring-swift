@@ -14,18 +14,17 @@ func statement(invoice: Invoice, plays: [String: Play]) -> String {
     }
     
     for perf in invoice.performances {
-        let play = playFor(perf)
-        let thisAmount = amountFor(perf, play)
+        let thisAmount = amountFor(perf, playFor(perf))
         
         // 포인트를 적립한다.
         volumeCredits += max(perf.audience - 30, 0)
         // 희극 관객 5명마다 추가 포인트를 제공한다.
-        if play.type == "comedy" {
+        if playFor(perf).type == "comedy" {
             volumeCredits += perf.audience / 5
         }
         
         // 청구 내역을 출력한다.
-        result += "\(play.name): \(format(thisAmount)) (\(perf.audience)석)\n"
+        result += "\(playFor(perf).name): \(format(thisAmount)) (\(perf.audience)석)\n"
         totalAmount += thisAmount
     }
     
