@@ -15,23 +15,7 @@ func statement(invoice: Invoice, plays: [String: Play]) -> String {
     
     for perf in invoice.performances {
         let play = plays[perf.playID]!
-        var thisAmount = 0
-        
-        switch play.type {
-        case "tragedy": // 비극
-            thisAmount = 40000
-            if perf.audience > 30 {
-                thisAmount += 1000 * (perf.audience - 30)
-            }
-        case "comedy": // 희극
-            thisAmount = 30000
-            if perf.audience > 20 {
-                thisAmount += 10000 + 500 * (perf.audience - 20)
-            }
-            thisAmount += 300 * perf.audience
-        default:
-            fatalError("알 수 없는 장르: \(play.type)")
-        }
+        let thisAmount = amountFor(perf, play)
         
         // 포인트를 적립한다.
         volumeCredits += max(perf.audience - 30, 0)
@@ -48,5 +32,24 @@ func statement(invoice: Invoice, plays: [String: Play]) -> String {
     result += "총액: \(format(totalAmount))\n"
     result += "적립 포인트: \(volumeCredits)점\n"
     return result
+    
+    func amountFor(_ perf: Performance, _ play: Play) -> Int {
+        var thisAmount = 0
+        switch play.type {
+        case "tragedy": // 비극
+            thisAmount = 40000
+            if perf.audience > 30 {
+                thisAmount += 1000 * (perf.audience - 30)
+            }
+        case "comedy": // 희극
+            thisAmount = 30000
+            if perf.audience > 20 {
+                thisAmount += 10000 + 500 * (perf.audience - 20)
+            }
+            thisAmount += 300 * perf.audience
+        default:
+            fatalError("알 수 없는 장르: \(play.type)")
+        }
+        return thisAmount
+    }
 }
-
