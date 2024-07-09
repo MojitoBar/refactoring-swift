@@ -1,11 +1,13 @@
 import Foundation
 
 func statement(invoice: Invoice, plays: [String: Play]) -> String {
-    return renderPlainText(invoice: invoice, plays: plays)
+    var statementData: StatementData = StatementData()
+    statementData.customer = invoice.customer
+    return renderPlainText(data: statementData, invoice: invoice, plays: plays)
 }
 
-func renderPlainText(invoice: Invoice, plays: [String: Play]) -> String {
-    var result = "청구 내역 (고객명: \(invoice.customer))\n"
+func renderPlainText(data: StatementData, invoice: Invoice, plays: [String: Play]) -> String {
+    var result = "청구 내역 (고객명: \(data.customer))\n"
     for perf in invoice.performances {
         result += "\(playFor(perf).name): \(usd(amountFor(perf))) (\(perf.audience)석)\n"
     }

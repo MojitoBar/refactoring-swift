@@ -21,6 +21,16 @@ struct TheaterData: Codable {
     let invoices: [Invoice]
 }
 
+struct StatementData {
+    var customer: String
+    var performances: [Performance]
+    
+    init(customer: String = "", performances: [Performance] = []) {
+        self.customer = customer
+        self.performances = performances
+    }
+}
+
 // JSON 데이터를 파싱하는 함수
 func parseTheaterData(playsJSON: String, invoicesJSON: String) -> TheaterData? {
     let jsonDecoder = JSONDecoder()
