@@ -4,12 +4,12 @@ func statement(invoice: Invoice, plays: [String: Play]) -> String {
     var totalAmount = 0
     var volumeCredits = 0
     var result = "청구 내역 (고객명: \(invoice.customer))\n"
-    let numberFormatter = NumberFormatter()
-    numberFormatter.numberStyle = .currency
-    numberFormatter.locale = Locale(identifier: "en_US")
-    numberFormatter.minimumFractionDigits = 2
     
-    func format(_ number: Int) -> String {
+    func usd(_ number: Int) -> String {
+        let numberFormatter = NumberFormatter()
+        numberFormatter.numberStyle = .currency
+        numberFormatter.locale = Locale(identifier: "en_US")
+        numberFormatter.minimumFractionDigits = 2
         return numberFormatter.string(from: NSNumber(value: Double(number) / 100.0)) ?? ""
     }
     
@@ -17,11 +17,11 @@ func statement(invoice: Invoice, plays: [String: Play]) -> String {
         volumeCredits += volumCreditsFor(perf)
         
         // 청구 내역을 출력한다.
-        result += "\(playFor(perf).name): \(format(amountFor(perf))) (\(perf.audience)석)\n"
+        result += "\(playFor(perf).name): \(usd(amountFor(perf))) (\(perf.audience)석)\n"
         totalAmount += amountFor(perf)
     }
     
-    result += "총액: \(format(totalAmount))\n"
+    result += "총액: \(usd(totalAmount))\n"
     result += "적립 포인트: \(volumeCredits)점\n"
     return result
     
