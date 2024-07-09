@@ -10,6 +10,7 @@ func statement(invoice: Invoice, plays: [String: Play]) -> String {
         var result = aPerformance
         result.play = playFor(result)
         result.amount = amountFor(result)
+        result.volumeCredits = volumCreditsFor(result)
         return result
     }
     
@@ -36,6 +37,15 @@ func statement(invoice: Invoice, plays: [String: Play]) -> String {
         }
         return result
     }
+    
+    func volumCreditsFor(_ aPerformance: Performance) -> Int {
+        var result = 0
+        result += max(aPerformance.audience - 30, 0)
+        if aPerformance.play!.type == "comedy" {
+            result += aPerformance.audience / 5
+        }
+        return result
+    }
 }
 
 func renderPlainText(data: StatementData, plays: [String: Play]) -> String {
@@ -55,21 +65,10 @@ func renderPlainText(data: StatementData, plays: [String: Play]) -> String {
         return numberFormatter.string(from: NSNumber(value: Double(number) / 100.0)) ?? ""
     }
     
-    
-    
-    func volumCreditsFor(_ aPerformance: Performance) -> Int {
-        var result = 0
-        result += max(aPerformance.audience - 30, 0)
-        if aPerformance.play!.type == "comedy" {
-            result += aPerformance.audience / 5
-        }
-        return result
-    }
-    
     func totalVolumeCredits() -> Int {
         var result = 0
         for perf in data.performances {
-            result += volumCreditsFor(perf)
+            result += perf.volumeCredits!
         }
         return result
     }

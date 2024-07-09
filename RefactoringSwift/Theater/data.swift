@@ -5,6 +5,7 @@ struct Performance: Codable {
     let audience: Int
     var play: Play?
     var amount: Int? = 0
+    var volumeCredits: Int? = 0
 }
 
 struct Invoice: Codable {
