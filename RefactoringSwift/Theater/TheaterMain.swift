@@ -18,24 +18,6 @@ func statement(invoice: Invoice, plays: [String: Play]) -> String {
             fatalError("플레이를 찾을 수 없습니다: \(perf.playID)")
         }
         
-        var thisAmount = 0
-        
-        switch play.type {
-        case "tragedy": // 비극
-            thisAmount = 40000
-            if perf.audience > 30 {
-                thisAmount += 1000 * (perf.audience - 30)
-            }
-        case "comedy": // 희극
-            thisAmount = 30000
-            if perf.audience > 20 {
-                thisAmount += 10000 + 500 * (perf.audience - 20)
-            }
-            thisAmount += 300 * perf.audience
-        default:
-            fatalError("알 수 없는 장르: \(play.type)")
-        }
-        
         // 포인트를 적립한다.
         volumeCredits += max(perf.audience - 30, 0)
         // 희극 관객 5명마다 추가 포인트를 제공한다.
@@ -44,8 +26,8 @@ func statement(invoice: Invoice, plays: [String: Play]) -> String {
         }
         
         // 청구 내역을 출력한다.
-        result += "\(play.name): \(format(thisAmount)) (\(perf.audience)석)\n"
-        totalAmount += thisAmount
+        result += "\(play.name): \(format(amountFor(play, perf))) (\(perf.audience)석)\n"
+        totalAmount += amountFor(play, perf)
     }
     
     result += "총액: \(format(totalAmount))\n"
@@ -53,3 +35,24 @@ func statement(invoice: Invoice, plays: [String: Play]) -> String {
     return result
 }
 
+func amountFor(_ play: Play, _ perf: Performance) -> Int {
+    var thisAmount = 0
+    
+    switch play.type {
+    case "tragedy": // 비극
+        thisAmount = 40000
+        if perf.audience > 30 {
+            thisAmount += 1000 * (perf.audience - 30)
+        }
+    case "comedy": // 희극
+        thisAmount = 30000
+        if perf.audience > 20 {
+            thisAmount += 10000 + 500 * (perf.audience - 20)
+        }
+        thisAmount += 300 * perf.audience
+    default:
+        fatalError("알 수 없는 장르: \(play.type)")
+    }
+    
+    return thisAmount
+}
