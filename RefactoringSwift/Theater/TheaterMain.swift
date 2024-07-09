@@ -14,12 +14,7 @@ func statement(invoice: Invoice, plays: [String: Play]) -> String {
     }
     
     for perf in invoice.performances {
-        // 포인트를 적립한다.
-        volumeCredits += max(perf.audience - 30, 0)
-        // 희극 관객 5명마다 추가 포인트를 제공한다.
-        if playFor(perf).type == "comedy" {
-            volumeCredits += perf.audience / 5
-        }
+        volumeCredits += volumCreditsFor(perf)
         
         // 청구 내역을 출력한다.
         result += "\(playFor(perf).name): \(format(amountFor(perf))) (\(perf.audience)석)\n"
@@ -52,5 +47,14 @@ func statement(invoice: Invoice, plays: [String: Play]) -> String {
     
     func playFor(_ aPerformance: Performance) -> Play{
         return plays[aPerformance.playID]!
+    }
+    
+    func volumCreditsFor(_ perf: Performance) -> Int {
+        let volumCredits = 0
+        volumeCredits += max(perf.audience - 30, 0)
+        if playFor(perf).type == "comedy" {
+            volumeCredits += perf.audience / 5
+        }
+        return volumCredits
     }
 }
