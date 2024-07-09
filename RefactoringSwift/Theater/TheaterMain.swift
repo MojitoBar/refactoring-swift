@@ -2,6 +2,12 @@ import Foundation
 
 func statement(invoice: Invoice, plays: [String: Play]) -> String {
     var result = "청구 내역 (고객명: \(invoice.customer))\n"
+    for perf in invoice.performances {
+        result += "\(playFor(perf).name): \(usd(amountFor(perf))) (\(perf.audience)석)\n"
+    }
+    result += "총액: \(usd(totalAmount()))\n"
+    result += "적립 포인트: \(totalVolumeCredits())점\n"
+    return result
     
     func usd(_ number: Int) -> String {
         let numberFormatter = NumberFormatter()
@@ -10,15 +16,6 @@ func statement(invoice: Invoice, plays: [String: Play]) -> String {
         numberFormatter.minimumFractionDigits = 2
         return numberFormatter.string(from: NSNumber(value: Double(number) / 100.0)) ?? ""
     }
-    
-    for perf in invoice.performances {
-        // 청구 내역을 출력한다.
-        result += "\(playFor(perf).name): \(usd(amountFor(perf))) (\(perf.audience)석)\n"
-    }
-    
-    result += "총액: \(usd(totalAmount()))\n"
-    result += "적립 포인트: \(totalVolumeCredits())점\n"
-    return result
     
     func amountFor(_ aPerformance: Performance) -> Int {
         var result = 0
