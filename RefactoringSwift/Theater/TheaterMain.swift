@@ -14,9 +14,7 @@ func statement(invoice: Invoice, plays: [String: Play]) -> String {
     }
     
     for perf in invoice.performances {
-        guard let play = plays[perf.playID] else {
-            fatalError("플레이를 찾을 수 없습니다: \(perf.playID)")
-        }
+        let play = playFor(perf)
         
         // 포인트를 적립한다.
         volumeCredits += max(perf.audience - 30, 0)
@@ -33,26 +31,31 @@ func statement(invoice: Invoice, plays: [String: Play]) -> String {
     result += "총액: \(format(totalAmount))\n"
     result += "적립 포인트: \(volumeCredits)점\n"
     return result
-}
-
-func amountFor(_ play: Play, _ aPerformance: Performance) -> Int {
-    var result = 0
     
-    switch play.type {
-    case "tragedy": // 비극
-        result = 40000
-        if aPerformance.audience > 30 {
-            result += 1000 * (aPerformance.audience - 30)
+    
+    func amountFor(_ play: Play, _ aPerformance: Performance) -> Int {
+        var result = 0
+        
+        switch play.type {
+        case "tragedy": // 비극
+            result = 40000
+            if aPerformance.audience > 30 {
+                result += 1000 * (aPerformance.audience - 30)
+            }
+        case "comedy": // 희극
+            result = 30000
+            if aPerformance.audience > 20 {
+                result += 10000 + 500 * (aPerformance.audience - 20)
+            }
+            result += 300 * aPerformance.audience
+        default:
+            fatalError("알 수 없는 장르: \(play.type)")
         }
-    case "comedy": // 희극
-        result = 30000
-        if aPerformance.audience > 20 {
-            result += 10000 + 500 * (aPerformance.audience - 20)
-        }
-        result += 300 * aPerformance.audience
-    default:
-        fatalError("알 수 없는 장르: \(play.type)")
+        
+        return result
     }
-    
-    return result
+
+    func playFor(_ aPerformance: Performance) -> Play {
+        return plays[aPerformance.playID]!
+    }
 }
