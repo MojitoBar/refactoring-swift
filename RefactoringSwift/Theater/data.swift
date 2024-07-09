@@ -3,6 +3,7 @@ import Foundation
 struct Performance: Codable {
     let playID: String
     let audience: Int
+    var play: Play?
 }
 
 struct Invoice: Codable {

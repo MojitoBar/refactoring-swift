@@ -3,14 +3,24 @@ import Foundation
 func statement(invoice: Invoice, plays: [String: Play]) -> String {
     var statementData: StatementData = StatementData()
     statementData.customer = invoice.customer
-    statementData.performances = invoice.performances
+    statementData.performances = invoice.performances.map(enrichPerformance(aPerformance:))
     return renderPlainText(data: statementData, plays: plays)
+    
+    func enrichPerformance(aPerformance: Performance) -> Performance {
+        var result = aPerformance
+        result.play = playFor(result)
+        return result
+    }
+    
+    func playFor(_ aPerformance: Performance) -> Play {
+        return plays[aPerformance.playID]!
+    }
 }
 
 func renderPlainText(data: StatementData, plays: [String: Play]) -> String {
     var result = "청구 내역 (고객명: \(data.customer))\n"
     for perf in data.performances {
-        result += "\(playFor(perf).name): \(usd(amountFor(perf))) (\(perf.audience)석)\n"
+        result += "\(perf.play!.name): \(usd(amountFor(perf))) (\(perf.audience)석)\n"
     }
     result += "총액: \(usd(totalAmount()))\n"
     result += "적립 포인트: \(totalVolumeCredits())점\n"
@@ -26,7 +36,7 @@ func renderPlainText(data: StatementData, plays: [String: Play]) -> String {
     
     func amountFor(_ aPerformance: Performance) -> Int {
         var result = 0
-        switch playFor(aPerformance).type {
+        switch aPerformance.play!.type {
         case "tragedy": // 비극
             result = 40000
             if aPerformance.audience > 30 {
@@ -39,19 +49,15 @@ func renderPlainText(data: StatementData, plays: [String: Play]) -> String {
             }
             result += 300 * aPerformance.audience
         default:
-            fatalError("알 수 없는 장르: \(playFor(aPerformance).type)")
+            fatalError("알 수 없는 장르: \(aPerformance.play!.type)")
         }
         return result
-    }
-    
-    func playFor(_ aPerformance: Performance) -> Play{
-        return plays[aPerformance.playID]!
     }
     
     func volumCreditsFor(_ aPerformance: Performance) -> Int {
         var result = 0
         result += max(aPerformance.audience - 30, 0)
-        if playFor(aPerformance).type == "comedy" {
+        if aPerformance.play!.type == "comedy" {
             result += aPerformance.audience / 5
         }
         return result
