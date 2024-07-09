@@ -11,4 +11,4 @@ import Foundation
 let theaterData = parseTheaterData(playsJSON: playsJSON, invoicesJSON: invoicesJSON)!
 
 print(statement(invoice: theaterData.invoices.first!, plays: theaterData.plays))
-
+print(htmlStatement(invoice: theaterData.invoices.first!, plays: theaterData.plays))
