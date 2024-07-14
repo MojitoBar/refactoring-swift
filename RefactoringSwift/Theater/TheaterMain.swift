@@ -1,5 +1,10 @@
 import Foundation
 
+// MARK: - 팩터리 메서드
+func createPerformanceCalculator(_ aPerformance: Performance, _ aPlay: Play) -> PerformanceCalculator {
+    return PerformanceCalculator(aPerformance, aPlay)
+}
+
 // MARK: - 공연료 계산기
 class PerformanceCalculator {
     var performance: Performance
@@ -94,7 +99,7 @@ func createStatementData(invoice: Invoice, plays: [String: Play]) -> StatementDa
     
     
     func enrichPerformance(aPerformance: Performance) -> Performance {
-        let calculator = PerformanceCalculator(aPerformance, playFor(aPerformance))
+        let calculator = createPerformanceCalculator(aPerformance, playFor(aPerformance))
         var result = aPerformance
         result.play = calculator.play
         result.amount = calculator.amount()
