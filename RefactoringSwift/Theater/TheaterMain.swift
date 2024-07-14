@@ -3,8 +3,10 @@ import Foundation
 // MARK: - 공연료 계산기
 class PerformanceCalculator {
     var performance: Performance
-    init(_ aPerformance: Performance) {
+    var play: Play
+    init(_ aPerformance: Performance, _ aPlay: Play) {
         performance = aPerformance
+        play = aPlay
     }
 }
 
@@ -63,7 +65,7 @@ func createStatementData(invoice: Invoice, plays: [String: Play]) -> StatementDa
     
     
     func enrichPerformance(aPerformance: Performance) -> Performance {
-        let calculator = PerformanceCalculator(aPerformance)
+        let calculator = PerformanceCalculator(aPerformance, playFor(aPerformance))
         var result = aPerformance
         result.play = playFor(result)
         result.amount = amountFor(result)
