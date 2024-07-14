@@ -26,12 +26,7 @@ class PerformanceCalculator {
     }
     
     func volumCredits() -> Int {
-        var result = 0
-        result += max(performance.audience - 30, 0)
-        if play.type == "comedy" {
-            result += performance.audience / 5
-        }
-        return result
+        return max(performance.audience - 30, 0)
     }
 }
 
@@ -53,6 +48,10 @@ class ComedyCalculator: PerformanceCalculator {
         }
         result += 300 * performance.audience
         return result
+    }
+    
+    override func volumCredits() -> Int {
+        return super.volumCredits() + performance.audience / 5
     }
 }
 
