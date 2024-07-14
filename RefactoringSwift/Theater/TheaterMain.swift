@@ -8,6 +8,26 @@ class PerformanceCalculator {
         performance = aPerformance
         play = aPlay
     }
+    
+    func amount() -> Int {
+        var result = 0
+        switch play.type {
+        case "tragedy": // 비극
+            result = 40000
+            if performance.audience > 30 {
+                result += 1000 * (performance.audience - 30)
+            }
+        case "comedy": // 희극
+            result = 30000
+            if performance.audience > 20 {
+                result += 10000 + 500 * (performance.audience - 20)
+            }
+            result += 300 * performance.audience
+        default:
+            fatalError("알 수 없는 장르: \(performance.play!.type)")
+        }
+        return result
+    }
 }
 
 // MARK: - Statement
@@ -78,23 +98,7 @@ func createStatementData(invoice: Invoice, plays: [String: Play]) -> StatementDa
     }
     
     func amountFor(_ aPerformance: Performance) -> Int {
-        var result = 0
-        switch aPerformance.play!.type {
-        case "tragedy": // 비극
-            result = 40000
-            if aPerformance.audience > 30 {
-                result += 1000 * (aPerformance.audience - 30)
-            }
-        case "comedy": // 희극
-            result = 30000
-            if aPerformance.audience > 20 {
-                result += 10000 + 500 * (aPerformance.audience - 20)
-            }
-            result += 300 * aPerformance.audience
-        default:
-            fatalError("알 수 없는 장르: \(aPerformance.play!.type)")
-        }
-        return result
+        return PerformanceCalculator(aPerformance, playFor(aPerformance)).amount()
     }
     
     func volumCreditsFor(_ aPerformance: Performance) -> Int {
