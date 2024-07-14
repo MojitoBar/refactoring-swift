@@ -28,6 +28,15 @@ class PerformanceCalculator {
         }
         return result
     }
+    
+    func volumCredits() -> Int {
+        var result = 0
+        result += max(performance.audience - 30, 0)
+        if play.type == "comedy" {
+            result += performance.audience / 5
+        }
+        return result
+    }
 }
 
 // MARK: - Statement
@@ -89,21 +98,12 @@ func createStatementData(invoice: Invoice, plays: [String: Play]) -> StatementDa
         var result = aPerformance
         result.play = calculator.play
         result.amount = calculator.amount()
-        result.volumeCredits = volumCreditsFor(result)
+        result.volumeCredits = calculator.volumCredits()
         return result
     }
     
     func playFor(_ aPerformance: Performance) -> Play {
         return plays[aPerformance.playID]!
-    }
-    
-    func volumCreditsFor(_ aPerformance: Performance) -> Int {
-        var result = 0
-        result += max(aPerformance.audience - 30, 0)
-        if aPerformance.play!.type == "comedy" {
-            result += aPerformance.audience / 5
-        }
-        return result
     }
     
     func totalVolumeCredits(data: StatementData) -> Int {
