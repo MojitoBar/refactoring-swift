@@ -87,18 +87,14 @@ func createStatementData(invoice: Invoice, plays: [String: Play]) -> StatementDa
     func enrichPerformance(aPerformance: Performance) -> Performance {
         let calculator = PerformanceCalculator(aPerformance, playFor(aPerformance))
         var result = aPerformance
-        result.play = playFor(result)
-        result.amount = amountFor(result)
+        result.play = calculator.play
+        result.amount = calculator.amount()
         result.volumeCredits = volumCreditsFor(result)
         return result
     }
     
     func playFor(_ aPerformance: Performance) -> Play {
         return plays[aPerformance.playID]!
-    }
-    
-    func amountFor(_ aPerformance: Performance) -> Int {
-        return PerformanceCalculator(aPerformance, playFor(aPerformance)).amount()
     }
     
     func volumCreditsFor(_ aPerformance: Performance) -> Int {
