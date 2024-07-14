@@ -2,7 +2,14 @@ import Foundation
 
 // MARK: - 팩터리 메서드
 func createPerformanceCalculator(_ aPerformance: Performance, _ aPlay: Play) -> PerformanceCalculator {
-    return PerformanceCalculator(aPerformance, aPlay)
+    switch(aPlay.type) {
+    case "tragedy":
+        return TragedyCalculator(aPerformance, aPlay)
+    case "comedy":
+        return ComedyCalculator(aPerformance, aPlay)
+    default:
+        fatalError("알 수 없는 장르: \(aPlay.type)")
+    }
 }
 
 // MARK: - 공연료 계산기
@@ -15,23 +22,7 @@ class PerformanceCalculator {
     }
     
     func amount() -> Int {
-        var result = 0
-        switch play.type {
-        case "tragedy": // 비극
-            result = 40000
-            if performance.audience > 30 {
-                result += 1000 * (performance.audience - 30)
-            }
-        case "comedy": // 희극
-            result = 30000
-            if performance.audience > 20 {
-                result += 10000 + 500 * (performance.audience - 20)
-            }
-            result += 300 * performance.audience
-        default:
-            fatalError("알 수 없는 장르: \(performance.play!.type)")
-        }
-        return result
+        fatalError("서브클래스에서 처리하도록 설계")
     }
     
     func volumCredits() -> Int {
@@ -40,6 +31,27 @@ class PerformanceCalculator {
         if play.type == "comedy" {
             result += performance.audience / 5
         }
+        return result
+    }
+}
+
+class TragedyCalculator: PerformanceCalculator {
+    override func amount() -> Int {
+        var result = 40000
+        if performance.audience > 30 {
+            result += 1000 * (performance.audience - 30)
+        }
+        return result
+    }
+}
+
+class ComedyCalculator: PerformanceCalculator {
+    override func amount() -> Int {
+        var result = 30000
+        if performance.audience > 20 {
+            result += 10000 + 500 * (performance.audience - 20)
+        }
+        result += 300 * performance.audience
         return result
     }
 }
